@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Her ❤️</title>
+
+<style>
+
+/* ===== Animated Romantic Gradient ===== */
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial;
+color:#f8cbd5;
+overflow:hidden;
+position:relative;
+background:linear-gradient(-45deg,#ff2e63,#7a001a,#2b0006,#ff0066);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* ===== LEFT COUPLE ===== */
+
+body::before{
+content:"";
+position:fixed;
+left:0;
+bottom:0;
+width:45%;
+height:100%;
+background:url("couple-left.png") no-repeat left bottom;
+background-size:contain;
+opacity:0.12;
+filter:blur(2px);
+pointer-events:none;
+z-index:0;
+}
+
+/* ===== RIGHT COUPLE ===== */
+
+body::after{
+content:"";
+position:fixed;
+right:0;
+bottom:0;
+width:45%;
+height:100%;
+background:url("couple-right.png") no-repeat right bottom;
+background-size:contain;
+opacity:0.12;
+filter:blur(2px);
+pointer-events:none;
+z-index:0;
+}
+
+/* ===== Floating Hearts & Snow ===== */
+
+.floating{
+position:absolute;
+top:-10px;
+color:white;
+animation:fall linear infinite;
+opacity:0.9;
+z-index:1;
+filter:drop-shadow(0 0 8px rgba(255,0,100,0.8));
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg);}
+100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* ===== Card ===== */
+
+.card{
+background:rgba(58,0,11,0.95);
+backdrop-filter:blur(6px);
+padding:35px;
+width:420px;
+max-height:85vh;
+overflow-y:auto;
+border-radius:25px;
+text-align:center;
+box-shadow:0 0 80px rgba(255,0,90,0.9);
+z-index:2;
+position:relative;
+}
+
+h2{color:#ff5a8a;}
+
+input{
+padding:10px;
+border-radius:20px;
+border:none;
+width:70%;
+margin-top:10px;
+}
+
+button{
+padding:10px 20px;
+border-radius:20px;
+border:1px solid #ff5a8a;
+background:transparent;
+color:#ff5a8a;
+cursor:pointer;
+margin:8px;
+transition:0.3s;
+}
+button:hover{background:#ff5a8a;color:white;}
+
+.top-img{
+width:140px;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+/* grid */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:15px;
+}
+
+.heart{
+background:#4a0010;
+font-size:40px;
+display:flex;
+justify-content:center;
+align-items:center;
+height:120px;
+border-radius:15px;
+cursor:pointer;
+}
+
+/* modal */
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+.modal img{
+max-width:350px;
+border-radius:20px;
+}
+
+/* popup */
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:20;
+}
+.popup-content{
+background:#3a000b;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 40px rgba(255,0,90,0.7);
+width:350px;
+}
+
+/* puzzle */
+.puzzle{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:4px;
+width:300px;
+height:300px;
+margin:20px auto;
+}
+.tile{
+background-image:url('puzzle.jpeg');
+background-size:300px 300px;
+cursor:pointer;
+}
+.tile.empty{background:none;}
+
+.reason{
+background:#4a0010;
+padding:10px;
+border-radius:15px;
+margin:8px 0;
+text-align:left;
+}
+.reason span{color:#ff5a8a;font-weight:bold;margin-right:8px;}
+
+</style>
+</head>
+
+<body>
+
+<div class="card" id="app"></div>
+
+<div class="modal" id="imageModal" onclick="closeImage()">
+<img id="modalImg">
+</div>
+
+<div class="popup" id="popupBox">
+<div class="popup-content">
+<h2>TOO LATE!</h2>
+<p id="popupText"></p>
+<button onclick="closePopup()">Go Back ❤️</button>
+</div>
+</div>
+
+<script>
+
+let girlName="";
+
+function startRomanticBackground(){
+for(let i=0;i<40;i++){
+let el=document.createElement("div");
+el.className="floating";
+el.innerHTML = Math.random() > 0.5 ? "❤️" : "❄️";
+el.style.left=Math.random()*100+"vw";
+el.style.animationDuration=(5+Math.random()*6)+"s";
+el.style.fontSize=(15+Math.random()*30)+"px";
+document.body.appendChild(el);
+}
+}
+
+/* NAME PAGE */
+function namePage(){
+document.getElementById("app").innerHTML=
+'<h2>Hey Beautiful 💖</h2>'+
+'<h3>Happy Valentine’s Day</h3>'+
+'<p>Enter your lovely name</p>'+
+'<input type="text" id="nameInput" placeholder="Your name...">'+
+'<br><button onclick="saveName()">Continue ❤️</button>';
+startRomanticBackground();
+}
+
+function saveName(){
+girlName=document.getElementById("nameInput").value;
+if(girlName.trim()=="") return;
+page1();
+}
+
+/* PAGE 1 */
+function page1(){
+document.getElementById("app").innerHTML=
+'<img src="dudu1.gif" class="top-img">'+
+'<h2>Will you be my Valentine, '+girlName+'?</h2>'+
+'<p>Hey '+girlName+', every day with you feels magical. ❤️</p>'+
+'<button onclick="page2()">Yes</button>'+
+'<button id="noBtn">No</button>';
+
+let scale=1;
+document.getElementById("noBtn").onmouseover=function(){
+this.style.position="relative";
+this.style.left=Math.random()*200-100+"px";
+this.style.top=Math.random()*200-100+"px";
+scale+=0.1;
+document.querySelector("button").style.transform="scale("+scale+")";
+};
+}
+
+/* PAGE 2 */
+function page2(){
+document.getElementById("app").innerHTML=
+'<img src="dudu2.gif" class="top-img">'+
+'<h2>Good choice, '+girlName+'! ✨</h2>'+
+'<p>Now you are stuck with me forever! There are no refunds, no exchanges, and definitely no escapes. I love you! ❤️</p>'+
+'<p>Do you want to change your mind?</p>'+
+'<button onclick="showPopup()">Yes</button>'+
+'<button onclick="page3()">Read my Letter →</button>';
+}
+
+function showPopup(){
+document.getElementById("popupText").innerHTML=
+'The "Stuck With Me Forever" contract has already been signed in heart-ink. No take-backs allowed! 🥲';
+document.getElementById("popupBox").style.display="flex";
+}
+
+function closePopup(){
+document.getElementById("popupBox").style.display="none";
+}
+
+/* LETTER */
+function page3(){
+document.getElementById("app").innerHTML=
+'<h2>To My Dearest '+girlName+'...</h2>'+
+'<p>My Love,<br><br>Thank you for being the most amazing person in my life. You make every ordinary moment feel like a fairy tale. I am so lucky to have you by my side.<br><br>Forever and always,<br>Your BF ❤️</p>'+
+'<button onclick="page4()">Our Memories →</button>';
+}
+
+/* MEMORIES */
+function page4(){
+document.getElementById("app").innerHTML=
+'<h2>Look at Our Cute Memories 📸</h2>'+
+'<div class="grid">'+
+'<div class="heart" onclick="openImage(\'img1.jpeg\')">❤️</div>'+
+'<div class="heart" onclick="openImage(\'img2.jpeg\')">❤️</div>'+
+'<div class="heart" onclick="openImage(\'img3.jpeg\')">❤️</div>'+
+'<div class="heart" onclick="openImage(\'img4.jpeg\')">❤️</div>'+
+'</div>'+
+'<button onclick="page5()">Play My Puzzle →</button>';
+}
+
+function openImage(src){
+document.getElementById("modalImg").src=src;
+document.getElementById("imageModal").style.display="flex";
+}
+function closeImage(){
+document.getElementById("imageModal").style.display="none";
+}
+
+/* PUZZLE */
+var board=[0,1,2,3,4,5,6,7,8];
+
+function page5(){
+document.getElementById("app").innerHTML=
+'<h2>Fix My Heart 🧩</h2>'+
+'<div class="puzzle" id="puzzle"></div>'+
+'<button onclick="shuffle()">Shuffle</button>'+
+'<button onclick="page6()">Why I Love You →</button>';
+renderPuzzle();
+}
+
+function renderPuzzle(){
+var puzzle=document.getElementById("puzzle");
+puzzle.innerHTML="";
+for(var i=0;i<9;i++){
+var tile=document.createElement("div");
+if(board[i]==8){
+tile.className="tile empty";
+}else{
+tile.className="tile";
+tile.style.backgroundPosition=(-(board[i]%3)*100)+"px "+(-Math.floor(board[i]/3)*100)+"px";
+}
+tile.onclick=(function(index){return function(){move(index);};})(i);
+puzzle.appendChild(tile);
+}
+}
+
+function move(i){
+var empty=board.indexOf(8);
+var row=Math.floor(i/3);
+var col=i%3;
+var erow=Math.floor(empty/3);
+var ecol=empty%3;
+if((row==erow && Math.abs(col-ecol)==1) ||
+   (col==ecol && Math.abs(row-erow)==1)){
+var temp=board[i];
+board[i]=board[empty];
+board[empty]=temp;
+renderPuzzle();
+}
+}
+
+function shuffle(){
+board.sort(function(){return 0.5-Math.random();});
+renderPuzzle();
+}
+
+/* REASONS */
+function page6(){
+document.getElementById("app").innerHTML=
+'<h2>10 Reasons Why I Love You, '+girlName+' ❤️</h2>'+
+'<div class="reason"><span>01</span>You are my safest place in this big world.</div>'+
+'<div class="reason"><span>02</span>Your smile is literally the best thing I have ever seen.</div>'+
+'<div class="reason"><span>03</span>How you always know how to make me laugh.</div>'+
+'<div class="reason"><span>04</span>The way you care about the little details.</div>'+
+'<div class="reason"><span>05</span>You are the most beautiful person, inside and out.</div>'+
+'<div class="reason"><span>06</span>How much you support me in everything I do.</div>'+
+'<div class="reason"><span>07</span>The feeling of your hand holding mine.</div>'+
+'<div class="reason"><span>08</span>You understand me like no one else does.</div>'+
+'<div class="reason"><span>09</span>Your kindness towards everyone around you.</div>'+
+'<div class="reason"><span>10</span>Because loving you is the easiest thing I have ever done.</div>';
+}
+
+namePage();
+
+</script>
+
+</body>
+</html>
